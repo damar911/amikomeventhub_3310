@@ -8,10 +8,9 @@
     <div class="bg-white p-8 rounded-xl shadow-lg border border-slate-200 max-w-md w-full">
         <h1 class="text-2xl font-bold text-slate-800 mb-4 text-center">FAQ Bantuan</h1>
         <div class="space-y-3 mb-6 text-slate-600">
-            <p><b>Q:</b> Cara buka halaman profil?</p>
-            <p><b>A:</b> Akses profil di browser.</p>
-            <p><b>Q:</b> Cara pindah ke halaman lain?</p>
-            <p><b>A:</b> Klik tombol navigasi yang tersedia.</p>
+            <p><b>Q:</b> Cara Menggunakan Framework Laravel</p>
+            <p><b>A:</b> Cara Melakukan Repo</p>
+            <p><b>Q:</b> Cara Melakukan Hosting</p>
         </div>
         <div class="flex flex-wrap justify-center gap-3">
             <a href="/" class="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700">Home</a>
