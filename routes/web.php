@@ -41,10 +41,14 @@ Route::get('/event-detail', [EventController::class, 'show']);
 Route::get('/checkout', [EventController::class, 'checkout']);
 Route::get('/ticket', [TicketController::class, 'show']);
 
-Route::group(['prefix' => 'admin', 'as' =>'admin.' ],function(){
-
-    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
-    Route::get('/events', [EventsController::class, 'index'])->name('events');
-    Route::get('/transactions', [TransactionsController::class, 'index'])->name('transactions');
-    Route::get('/categories', [CategoriesController::class, 'index'])->name('categories');
+Route::group(['prefix' => 'admin', 'as' =>'admin.'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/events', [EventsController::class, 'index'])->name('events.index');  
+    Route::get('/events/create', [EventsController::class, 'create'])->name('events.create');
+    Route::post('/events', [EventsController::class, 'store'])->name('events.store');
+    Route::get('/events/{event}/edit', [EventsController::class, 'edit'])->name('events.edit');
+    Route::put('/events/{event}', [EventsController::class, 'update'])->name('events.update');
+    Route::delete('/events/{event}', [EventsController::class, 'destroy'])->name('events.destroy');
+    Route::get('/transactions', [TransactionsController::class, 'index'])->name('transactions.index');
+    Route::get('/categories', [CategoriesController::class, 'index'])->name('categories.index');
 });
