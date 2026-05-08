@@ -8,7 +8,6 @@ https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/profil
 1. dashboard: https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/admin/dashboard
 2. event : https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/admin/events
 3. halaman transaksi: https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/admin/transactions
-
 4. beranda : https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/
 5  detail transaksi: https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/event-detail.html
 6. checkout: https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/checkout.html
