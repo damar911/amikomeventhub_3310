@@ -16,4 +16,3 @@ https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/profil
 1. dashboard admin: https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/admin/dashboard
 2. kelola event: https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/admin/events
 3. laporan transaksi: https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/admin/transactions
-4. tambah event: https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/admin/events/create
