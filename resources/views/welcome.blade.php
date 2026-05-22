@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
- <!-- Hero Section -->
+<!-- Hero Section -->
     <section class="max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-12">
         <div class="flex-1 space-y-8">
             <span
@@ -153,4 +153,36 @@
             </div>
         </div>
     </section>
+    <!-- Partners Grid -->
+<section id="partners" class="max-w-7xl mx-auto px-6 py-20">
+    <div class="flex justify-between items-end mb-12">
+        <div>
+            <h2 class="text-3xl font-extrabold mb-2">Partner Kami</h2>
+            <p class="text-slate-500 font-medium">Platform AmikomEventHub didukung oleh partner berikut:</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        @foreach($partners as $partner)
+            <div
+                class="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="relative overflow-hidden aspect-[3/4] flex items-center justify-center bg-slate-50">
+                    @if($partner->logo_url)
+                        <img src="{{ $partner->logo_url }}" alt="{{ $partner->name }}"
+                            class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500">
+                    @endif
+                    <div
+                        class="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur rounded-lg text-xs font-bold uppercase text-indigo-600">
+                        {{ $partner->getTypeLabelAttribute() }}
+                    </div>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-indigo-600 transition">{{ $partner->name }}</h3>
+                    <p class="text-sm text-slate-500">{{ $partner->deskripsi }}</p>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</section>
+
 @endsection
