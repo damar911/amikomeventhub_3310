@@ -154,6 +154,8 @@
         </div>
     </section>
     <!-- Partners Grid -->
+    <!-- DEBUG -->
+{{ dump($partners) }}
 <section id="partners" class="max-w-7xl mx-auto px-6 py-20">
     <div class="flex justify-between items-end mb-12">
         <div>
