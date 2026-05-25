@@ -1,7 +1,7 @@
 @extends('layouts.admin')
-@section('title', 'Kelola Kategori - Admin')
-@section('page_title', 'Kelola Kategori')
-@section('page_subtitle', 'Atur dan kelola kategori event Anda di sini.')
+@section('title', 'Kelola Partner - Admin')
+@section('page_title', 'Kelola Partner Event')
+@section('page_subtitle', 'Atur sponsor, media partner, dan komunitas yang terlibat dalam event.')
 
 @section('content')
 
@@ -42,7 +42,7 @@
     <div class="mb-5 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
 
         {{-- Search --}}
-        <form method="GET" action="{{ route('admin.categories.index') }}" class="flex-1 max-w-md">
+        <form method="GET" action="{{ route('admin.partners.index') }}" class="flex-1 max-w-md">
             <div class="relative">
                 <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,15 +54,14 @@
                     type="text"
                     name="search"
                     value="{{ request('search') }}"
-                    placeholder="Cari kategori..."
+                    placeholder="Cari partner..."
                     class="w-full pl-11 pr-10 py-3 rounded-2xl border border-slate-200 bg-white text-sm
                            text-slate-700 placeholder-slate-400 shadow-sm focus:outline-none
                            focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition"
                 />
                 @if(request('search'))
-                    <a href="{{ route('admin.categories.index') }}"
-                        class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400
-                               hover:text-slate-600 transition">
+                    <a href="{{ route('admin.partners.index') }}"
+                        class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
@@ -71,14 +70,14 @@
             </div>
         </form>
 
-        {{-- Tombol Tambah → arahkan ke halaman create --}}
-        <a href="{{ route('admin.categories.create') }}"
+        {{-- Tombol Tambah --}}
+        <a href="{{ route('admin.partners.create') }}"
             class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-2xl font-bold
                    shadow-lg shadow-indigo-100 hover:bg-indigo-700 active:scale-95 transition whitespace-nowrap">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
-            Tambah Kategori
+            Tambah Partner
         </a>
     </div>
 
@@ -91,54 +90,98 @@
             </svg>
             Menampilkan hasil untuk
             <span class="font-bold text-indigo-600">"{{ request('search') }}"</span>
-            — {{ $categories->total() }} kategori ditemukan
+            — {{ $partners->total() }} partner ditemukan
         </div>
     @endif
 
-    {{-- Tabel Kategori --}}
+    {{-- Tabel Partner --}}
     <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead class="bg-slate-50 text-slate-400 uppercase text-[10px] font-black tracking-widest">
                     <tr>
                         <th class="px-8 py-4 w-16">No</th>
-                        <th class="px-8 py-4">Kategori</th>
-                        <th class="px-8 py-4 w-32 text-center">Aksi</th>
+                        <th class="px-8 py-4">Partner</th>
+                        <th class="px-8 py-4 w-40">Tipe</th>
+                        <th class="px-8 py-4 w-28 text-center">Status</th>
+                        <th class="px-8 py-4 w-36 text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y border-t">
-                    @forelse($categories as $index => $category)
+                    @forelse($partners as $index => $partner)
                         <tr class="hover:bg-slate-50/50 transition">
 
                             {{-- No --}}
                             <td class="px-8 py-5 font-bold text-slate-400">
-                                {{ $categories->firstItem() + $index }}
+                                {{ $partners->firstItem() + $index }}
                             </td>
 
-                            {{-- Kategori: nama + slug sebagai sub-info --}}
+                            {{-- Partner: logo + nama + slug --}}
                             <td class="px-8 py-5">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                                        <span class="text-indigo-600 font-black text-sm">
-                                            {{ strtoupper(substr($category->name, 0, 1)) }}
-                                        </span>
+                                    {{-- Logo atau Inisial --}}
+                                    <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100
+                                                flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                        @if($partner->logo_url)
+                                            <img src="{{ $partner->logo_url }}" alt="{{ $partner->name }}"
+                                                 class="w-full h-full object-contain p-1">
+                                        @else
+                                            <span class="text-indigo-600 font-black text-sm">
+                                                {{ strtoupper(substr($partner->name, 0, 1)) }}
+                                            </span>
+                                        @endif
                                     </div>
                                     <div>
-                                        <p class="font-black text-slate-800">{{ $category->name }}</p>
-                                        <p class="text-xs text-slate-400 font-mono mt-0.5">{{ $category->slug }}</p>
+                                        <p class="font-black text-slate-800">{{ $partner->name }}</p>
+                                        <div class="flex items-center gap-2 mt-0.5">
+                                            <p class="text-xs text-slate-400 font-mono">{{ $partner->slug }}</p>
+                                        </div>
                                     </div>
                                 </div>
+                            </td>
+
+                            {{-- Tipe --}}
+                            <td class="px-8 py-5">
+                                @php
+                                    $typeColors = [
+                                        'sponsor'   => 'bg-amber-50 text-amber-700 border-amber-200',
+                                        'media'     => 'bg-sky-50 text-sky-700 border-sky-200',
+                                        'community' => 'bg-violet-50 text-violet-700 border-violet-200',
+                                        'other'     => 'bg-slate-100 text-slate-600 border-slate-200',
+                                    ];
+                                    $color = $typeColors[$partner->type] ?? $typeColors['other'];
+                                @endphp
+                                <span class="inline-flex px-3 py-1 rounded-full text-xs font-bold border {{ $color }}">
+                                    {{ $partner->type_label }}
+                                </span>
+                            </td>
+
+                            {{-- Status Aktif --}}
+                            <td class="px-8 py-5 text-center">
+                                @if($partner->is_active)
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold
+                                                 bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        Aktif
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold
+                                                 bg-slate-100 text-slate-500 border border-slate-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                        Nonaktif
+                                    </span>
+                                @endif
                             </td>
 
                             {{-- Aksi --}}
                             <td class="px-8 py-5">
                                 <div class="flex items-center justify-center gap-2">
 
-                                    {{-- Tombol Edit → halaman edit --}}
-                                    <a href="{{ route('admin.categories.edit', $category->id) }}"
+                                    {{-- Edit --}}
+                                    <a href="{{ route('admin.partners.edit', $partner->id) }}"
                                         class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl
                                                hover:bg-indigo-600 hover:text-white transition"
-                                        title="Edit kategori">
+                                        title="Edit partner">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5
@@ -146,12 +189,12 @@
                                         </svg>
                                     </a>
 
-                                    {{-- Tombol Hapus → modal konfirmasi --}}
+                                    {{-- Hapus --}}
                                     <button
-                                        onclick="openDeleteModal({{ $category->id }}, '{{ addslashes($category->name) }}')"
+                                        onclick="openDeleteModal({{ $partner->id }}, '{{ addslashes($partner->name) }}')"
                                         class="p-2.5 bg-rose-50 text-rose-600 rounded-xl
                                                hover:bg-rose-600 hover:text-white transition"
-                                        title="Hapus kategori">
+                                        title="Hapus partner">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0
@@ -164,26 +207,27 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="px-8 py-16 text-center">
+                            <td colspan="5" class="px-8 py-16 text-center">
                                 <div class="flex flex-col items-center gap-3">
                                     <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center">
                                         <svg class="w-7 h-7 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010
-                                                   2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857
+                                                   M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857
+                                                   m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                                         </svg>
                                     </div>
                                     <p class="text-slate-400 font-semibold text-sm">
                                         @if(request('search'))
-                                            Tidak ada kategori yang cocok dengan "{{ request('search') }}"
+                                            Tidak ada partner yang cocok dengan "{{ request('search') }}"
                                         @else
-                                            Belum ada kategori yang ditambahkan.
+                                            Belum ada partner yang ditambahkan.
                                         @endif
                                     </p>
                                     @if(request('search'))
-                                        <a href="{{ route('admin.categories.index') }}"
+                                        <a href="{{ route('admin.partners.index') }}"
                                             class="text-indigo-500 text-xs hover:underline">
-                                            Tampilkan semua kategori
+                                            Tampilkan semua partner
                                         </a>
                                     @endif
                                 </div>
@@ -195,16 +239,16 @@
         </div>
 
         {{-- Pagination --}}
-        @if($categories->hasPages())
+        @if($partners->hasPages())
             <div class="px-8 py-5 bg-slate-50/50 border-t">
-                {{ $categories->appends(request()->query())->links() }}
+                {{ $partners->appends(request()->query())->links() }}
             </div>
         @endif
     </div>
 
 
     {{-- =============================== --}}
-    {{-- MODAL: HAPUS KATEGORI           --}}
+    {{-- MODAL: HAPUS PARTNER            --}}
     {{-- =============================== --}}
     <div id="modal-hapus"
         class="fixed inset-0 z-50 hidden items-center justify-center p-4"
@@ -223,11 +267,11 @@
                     </svg>
                 </div>
                 <div>
-                    <h2 class="text-lg font-black text-slate-800">Hapus Kategori?</h2>
+                    <h2 class="text-lg font-black text-slate-800">Hapus Partner?</h2>
                     <p class="text-sm text-slate-500 mt-1">
-                        Anda akan menghapus kategori
+                        Anda akan menghapus partner
                         <span id="hapus-name" class="font-bold text-slate-700"></span>.
-                        Tindakan ini tidak dapat dibatalkan.
+                        Logo dan data akan terhapus permanen.
                     </p>
                 </div>
             </div>
@@ -251,7 +295,6 @@
         </div>
     </div>
 
-
     <style>
         .animate-modal {
             animation: modalIn 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -265,7 +308,7 @@
     <script>
         function openDeleteModal(id, name) {
             document.getElementById('hapus-name').textContent = `"${name}"`;
-            document.getElementById('form-hapus').action = `/admin/categories/${id}`;
+            document.getElementById('form-hapus').action = `/admin/partners/${id}`;
             const modal = document.getElementById('modal-hapus');
             modal.classList.remove('hidden');
             modal.classList.add('flex');

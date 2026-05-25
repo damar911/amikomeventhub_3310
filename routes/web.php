@@ -8,14 +8,15 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PartnerController;
+use App\Http\Controllers\WelcomeController;
 
 Route::get('/', function () {
     return '<h1>ini adalah halaman tentang aplikasi event hub</h1>';
 }); 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::get('/kontak', function () {
     return view('contact');
@@ -50,5 +51,6 @@ Route::group(['prefix' => 'admin', 'as' =>'admin.'], function () {
     Route::put('/events/{event}', [EventsController::class, 'update'])->name('events.update');
     Route::delete('/events/{event}', [EventsController::class, 'destroy'])->name('events.destroy');
     Route::get('/transactions', [TransactionsController::class, 'index'])->name('transactions.index');
-    Route::get('/categories', [CategoriesController::class, 'index'])->name('categories.index');
+    Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::resource('partners', PartnerController::class)->except(['show']);
 });
