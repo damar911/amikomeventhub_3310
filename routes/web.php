@@ -12,6 +12,9 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\WelcomeController;
 
+Route::get('/', function () {
+    return '<h1>ini adalah halaman tentang aplikasi event hub</h1>';
+}); 
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
