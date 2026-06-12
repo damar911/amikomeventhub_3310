@@ -113,7 +113,7 @@ transition">
         </nav>
 
         <div class="pt-6 border-t border-indigo-800">
-            <form action="#" method="POST">
+            <form action="{{ route('admin.logout') }}" method="POST">
                 @csrf
                 <button type="submit"
                     class="w-full flex items-center gap-3 px-4

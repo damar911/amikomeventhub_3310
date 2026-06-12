@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\Admin\AuthController;
 
 Route::get('/', function () {
     return '<h1>ini adalah halaman tentang aplikasi event hub</h1>';
@@ -41,7 +42,9 @@ Route::get('/app', [HomeController::class,'index']);
 Route::get('/event-detail', [EventController::class, 'show']);
 Route::get('/checkout', [EventController::class, 'checkout']);
 Route::get('/ticket', [TicketController::class, 'show']);
-
+Route::get('/login', function () {
+    return redirect()->route('admin.login');
+})->name('login');
 Route::group(['prefix' => 'admin', 'as' =>'admin.'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/events', [EventsController::class, 'index'])->name('events.index');  
@@ -53,4 +56,12 @@ Route::group(['prefix' => 'admin', 'as' =>'admin.'], function () {
     Route::get('/transactions', [TransactionsController::class, 'index'])->name('transactions.index');
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('partners', PartnerController::class)->except(['show']);
+    Route::get('login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('login', [AuthController::class, 'login'])->name('login.post');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('events', EventsController::class);
+        Route::get('transactions', [TransactionsController::class, 'index'])->name('transactions.index');
+});
 });
