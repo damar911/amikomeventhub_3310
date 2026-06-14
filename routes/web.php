@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\EventsController;
 use App\Http\Controllers\Admin\TransactionsController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
@@ -39,9 +40,17 @@ Route::get('/bantuan', function () {
 
 Route::get('/app', [HomeController::class,'index']);
 
-Route::get('/event-detail', [EventController::class, 'show']);
-Route::get('/checkout', [EventController::class, 'checkout']);
-Route::get('/ticket', [TicketController::class, 'show']);
+Route::get('/checkout/{event}',
+    [CheckoutController::class, 'create'])
+    ->name('checkout.create');
+
+Route::post('/checkout/{event}',
+    [CheckoutController::class, 'store'])
+    ->name('checkout.store');
+Route::get('/events/{event}', [EventController::class, 'show'])
+    ->name('events.show');
+Route::get('/ticket', [TicketController::class, 'show'])->name('ticket.show');
+
 Route::get('/login', function () {
     return redirect()->route('admin.login');
 })->name('login');
@@ -62,6 +71,8 @@ Route::group(['prefix' => 'admin', 'as' =>'admin.'], function () {
 Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('events', EventsController::class);
+        Route::get('transactions', [TransactionsController::class, 'index'])->name('transactions.index');
+
         Route::get('transactions', [TransactionsController::class, 'index'])->name('transactions.index');
 });
 });

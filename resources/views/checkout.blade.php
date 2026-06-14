@@ -120,11 +120,11 @@
                 <p class="text-xs text-slate-400">Order ID #TRX-99210</p>
 
                 <div class="mt-8 space-y-4">
-                    <button onclick="window.location.href='ticket.html'"
-                        class="w-full py-4 border-2 border-indigo-100 rounded-2xl flex justify-between items-center px-6 hover:border-indigo-600 transition group">
-                        <span class="font-bold group-hover:text-indigo-600">GoPay / QRIS</span>
-                        <span class="text-indigo-400">→</span>
-                    </button>
+                    <button onclick="window.location.href='/ticket?order_id={{ $transaction->order_id ?? '' }}'"
+    class="w-full py-4 border-2 border-indigo-100 rounded-2xl flex justify-between items-center px-6 hover:border-indigo-600 transition group">
+    <span class="font-bold group-hover:text-indigo-600">GoPay / QRIS</span>
+    <span class="text-indigo-400">→</span>
+</button>
                     <button
                         class="w-full py-4 border-2 border-indigo-100 rounded-2xl flex justify-between items-center px-6 hover:border-indigo-600 transition group opacity-50 cursor-not-allowed">
                         <span class="font-bold">Virtual Account (BNI, BRI)</span>
@@ -183,7 +183,14 @@
             animation: bounce-in 0.4s ease-out forwards;
         }
     </style>
-
+@if(isset($transaction))
+<script>
+    // Begitu halaman memuat ulang setelah submit form, fungsi ini langsung memanggil modal Midtrans-mu
+    window.onload = function() {
+        showMidtrans();
+    };
+</script>
+@endif
 </body>
 
 </html>
