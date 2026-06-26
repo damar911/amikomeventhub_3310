@@ -36,6 +36,11 @@ Route::get('/bantuan', function () {
     return view('bantuan');
 });
 
+Route::get('/payment/{order_id}', [CheckoutController::class, 'payment'])->name('checkout.payment');
+Route::get('/success/{order_id}', [CheckoutController::class, 'success'])->name('checkout.success');
+
+Route::post('/midtrans/callback', [\App\Http\Controllers\MidtransWebhookController::class, 'handle']);
+
 
 
 Route::get('/app', [HomeController::class,'index']);
@@ -54,6 +59,8 @@ Route::get('/ticket', [TicketController::class, 'show'])->name('ticket.show');
 Route::get('/login', function () {
     return redirect()->route('admin.login');
 })->name('login');
+
+
 Route::group(['prefix' => 'admin', 'as' =>'admin.'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/events', [EventsController::class, 'index'])->name('events.index');  
