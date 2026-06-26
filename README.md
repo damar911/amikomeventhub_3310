@@ -27,4 +27,9 @@ https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/profil
 1. laporan transaksi admin : https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/admin/transactions
 2. dashboard admin : https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/admin/dashboard
 3. dashboard user : https://amikomeventhub-3310-main-6qofuc.free.laravel.cloud/
+
+# link Deploy InfinityFree
+1. http://amikomeventhub.gt.tc/
+2. http://amikomeventhub.gt.tc/admin/dashboard
+
    
